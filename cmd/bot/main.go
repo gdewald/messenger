@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gdewald/messenger"
 	"github.com/paked/configure"
-	"github.com/paked/messenger"
 )
 
 var (

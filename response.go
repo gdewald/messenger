@@ -271,9 +271,27 @@ type MessageData struct {
 
 // SendStructuredMessage is a structured message template.
 type SendStructuredMessage struct {
-	Recipient Recipient             `json:"recipient"`
-	Message   StructuredMessageData `json:"message"`
+	Recipient        Recipient             `json:"recipient"`
+	Message          StructuredMessageData `json:"message"`
+	NotificationType NotificationType      `json:"notification_type,omitempty"`
+	Tag              Tag                   `json:"tag,omitempty"`
 }
+
+// Tags the message for special behavior.
+type Tag string
+
+const (
+	TagReservation Tag = "RESERVATION_UPDATE"
+)
+
+// Specifies the type of notification user receives for a message.
+type NotificationType string
+
+const (
+	NotificationTypeRegular    NotificationType = "REGULAR"
+	NotificationTypeSilentPush NotificationType = "SILENT_PUSH"
+	NotificationTypeNoPush     NotificationType = "NO_PUSH"
+)
 
 // StructuredMessageData is an attachment sent with a structured message.
 type StructuredMessageData struct {
@@ -296,7 +314,17 @@ type StructuredMessagePayload struct {
 	Elements     *[]StructuredMessageElement `json:"elements,omitempty"`
 	Buttons      *[]StructuredMessageButton  `json:"buttons,omitempty"`
 	Url          string                      `json:"url,omitempty"`
+	// Only applies for generic template
+	ImageAspectRatio AspectRatio `json:"image_aspect_ratio,omitempty"`
 }
+
+// Determines aspect ratio of images shown in generic template.
+type AspectRatio string
+
+const (
+	AspectRatioSquare     AspectRatio = "square"
+	AspectRatioHorizontal AspectRatio = "horizontal"
+)
 
 // StructuredMessageElement is a response containing structural elements
 type StructuredMessageElement struct {
@@ -304,7 +332,7 @@ type StructuredMessageElement struct {
 	ImageURL string                    `json:"image_url"`
 	ItemURL  string                    `json:"item_url"`
 	Subtitle string                    `json:"subtitle"`
-	Buttons  []StructuredMessageButton `json:"buttons"`
+	Buttons  []StructuredMessageButton `json:"buttons,omitempty"`
 }
 
 // StructuredMessageButton is a response containing buttons
